@@ -6,10 +6,8 @@ package userclasses;
 import com.codename1.components.InfiniteProgress;
 import com.codename1.io.ConnectionRequest;
 import com.codename1.io.JSONParser;
-import com.codename1.io.Log;
 import com.codename1.io.NetworkManager;
 import com.codename1.io.Storage;
-import com.codename1.io.Util;
 import generated.StateMachineBase;
 import com.codename1.ui.*;
 import com.codename1.ui.animations.CommonTransitions;
@@ -22,7 +20,6 @@ import com.codename1.util.StringUtil;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.util.Collections;
 import java.util.Hashtable;
 import java.util.Random;
@@ -48,6 +45,7 @@ public class StateMachine extends StateMachineBase {
     private Hashtable<String, String> myHighScores;
     private Vector<Hashtable> allLogos;
     private int beginning;
+    private boolean empty;
 
     public StateMachine(String resFile) {
         super(resFile);
@@ -67,85 +65,85 @@ public class StateMachine extends StateMachineBase {
         count = 9;
     }
 
-    private void fixImages() {
-        Image im = fetchResourceFile().getImage("logo.png");
-        Image im1 = fetchResourceFile().getImage("logo1.png");
-        Image im2 = fetchResourceFile().getImage("logo2.png");
-        Image im3 = fetchResourceFile().getImage("logo3.png");
-        Image im4 = fetchResourceFile().getImage("logo4.png");
-        Image im5 = fetchResourceFile().getImage("logo5.png");
-        Image im6 = fetchResourceFile().getImage("logo6.png");
-        Image im7 = fetchResourceFile().getImage("logo7.png");
-        Image im8 = fetchResourceFile().getImage("logo8.png");
-        Image im9 = fetchResourceFile().getImage("logo9.png");
-
-
-        Hashtable<String, Object> h = new Hashtable<String, Object>();
-        Hashtable<String, Object> h1 = new Hashtable<String, Object>();
-        Hashtable<String, Object> h2 = new Hashtable<String, Object>();
-        Hashtable<String, Object> h3 = new Hashtable<String, Object>();
-        Hashtable<String, Object> h4 = new Hashtable<String, Object>();
-        Hashtable<String, Object> h5 = new Hashtable<String, Object>();
-        Hashtable<String, Object> h6 = new Hashtable<String, Object>();
-        Hashtable<String, Object> h7 = new Hashtable<String, Object>();
-        Hashtable<String, Object> h8 = new Hashtable<String, Object>();
-        Hashtable<String, Object> h9 = new Hashtable<String, Object>();
-        Hashtable<String, Object> h10 = new Hashtable<String, Object>();
-
-        h.put("Image", im);
-        h.put("optA", "Superman");
-        h.put("optB", "spiderman");
-        h.put("correctAns", "Superman");
-        h1.put("Image", im1);
-        h1.put("optA", "Up Nepa");
-        h1.put("optB", "ghost busters");
-        h1.put("correctAns", "ghost busters");
-        h2.put("Image", im2);
-        h2.put("optA", "Excel");
-        h2.put("optB", "Notepad");
-        h2.put("correctAns", "Excel");
-        h3.put("Image", im3);
-        h3.put("optA", "diamond");
-        h3.put("optB", "silver");
-        h3.put("correctAns", "diamond");
-        h4.put("Image", im4);
-        h4.put("optA", "Kangaroo");
-        h4.put("optB", "Puma");
-        h4.put("correctAns", "Puma");
-        h5.put("Image", im5);
-        h5.put("optA", "Stamp");
-        h5.put("optB", "Pause");
-        h5.put("correctAns", "Stamp");
-        h6.put("Image", im6);
-        h6.put("optA", "Calvin Klein");
-        h6.put("optB", "channel");
-        h6.put("correctAns", "channel");
-        h7.put("Image", im7);
-        h7.put("optA", "ManU");
-        h7.put("optB", "Barca");
-        h7.put("correctAns", "Barca");
-        h8.put("Image", im8);
-        h8.put("optA", "WinRar");
-        h8.put("optB", "WinZip");
-        h8.put("correctAns", "WinZip");
-        h9.put("Image", im9);
-        h9.put("optA", "nintendo");
-        h9.put("optB", "Children");
-        h9.put("correctAns", "nintendo");
-
-        vector = new Vector<Hashtable>();
-        vector.add(h);
-        vector.add(h1);
-        vector.add(h2);
-        vector.add(h3);
-        vector.add(h4);
-        vector.add(h5);
-        vector.add(h6);
-        vector.add(h7);
-        vector.add(h8);
-        vector.add(h9);
-        vector.add(h10);
-    }
+//    private void fixImages() {
+//        Image im = fetchResourceFile().getImage("logo.png");
+//        Image im1 = fetchResourceFile().getImage("logo1.png");
+//        Image im2 = fetchResourceFile().getImage("logo2.png");
+//        Image im3 = fetchResourceFile().getImage("logo3.png");
+//        Image im4 = fetchResourceFile().getImage("logo4.png");
+//        Image im5 = fetchResourceFile().getImage("logo5.png");
+//        Image im6 = fetchResourceFile().getImage("logo6.png");
+//        Image im7 = fetchResourceFile().getImage("logo7.png");
+//        Image im8 = fetchResourceFile().getImage("logo8.png");
+//        Image im9 = fetchResourceFile().getImage("logo9.png");
+//
+//
+//        Hashtable<String, Object> h = new Hashtable<String, Object>();
+//        Hashtable<String, Object> h1 = new Hashtable<String, Object>();
+//        Hashtable<String, Object> h2 = new Hashtable<String, Object>();
+//        Hashtable<String, Object> h3 = new Hashtable<String, Object>();
+//        Hashtable<String, Object> h4 = new Hashtable<String, Object>();
+//        Hashtable<String, Object> h5 = new Hashtable<String, Object>();
+//        Hashtable<String, Object> h6 = new Hashtable<String, Object>();
+//        Hashtable<String, Object> h7 = new Hashtable<String, Object>();
+//        Hashtable<String, Object> h8 = new Hashtable<String, Object>();
+//        Hashtable<String, Object> h9 = new Hashtable<String, Object>();
+//        Hashtable<String, Object> h10 = new Hashtable<String, Object>();
+//
+//        h.put("Image", im);
+//        h.put("optA", "Superman");
+//        h.put("optB", "spiderman");
+//        h.put("correctAns", "Superman");
+//        h1.put("Image", im1);
+//        h1.put("optA", "Up Nepa");
+//        h1.put("optB", "ghost busters");
+//        h1.put("correctAns", "ghost busters");
+//        h2.put("Image", im2);
+//        h2.put("optA", "Excel");
+//        h2.put("optB", "Notepad");
+//        h2.put("correctAns", "Excel");
+//        h3.put("Image", im3);
+//        h3.put("optA", "diamond");
+//        h3.put("optB", "silver");
+//        h3.put("correctAns", "diamond");
+//        h4.put("Image", im4);
+//        h4.put("optA", "Kangaroo");
+//        h4.put("optB", "Puma");
+//        h4.put("correctAns", "Puma");
+//        h5.put("Image", im5);
+//        h5.put("optA", "Stamp");
+//        h5.put("optB", "Pause");
+//        h5.put("correctAns", "Stamp");
+//        h6.put("Image", im6);
+//        h6.put("optA", "Calvin Klein");
+//        h6.put("optB", "channel");
+//        h6.put("correctAns", "channel");
+//        h7.put("Image", im7);
+//        h7.put("optA", "ManU");
+//        h7.put("optB", "Barca");
+//        h7.put("correctAns", "Barca");
+//        h8.put("Image", im8);
+//        h8.put("optA", "WinRar");
+//        h8.put("optB", "WinZip");
+//        h8.put("correctAns", "WinZip");
+//        h9.put("Image", im9);
+//        h9.put("optA", "nintendo");
+//        h9.put("optB", "Children");
+//        h9.put("correctAns", "nintendo");
+//
+//        vector = new Vector<Hashtable>();
+//        vector.add(h);
+//        vector.add(h1);
+//        vector.add(h2);
+//        vector.add(h3);
+//        vector.add(h4);
+//        vector.add(h5);
+//        vector.add(h6);
+//        vector.add(h7);
+//        vector.add(h8);
+//        vector.add(h9);
+//        vector.add(h10);
+//    }
 
     private void getLevel() {
 //        System.out.println("get level 3");
@@ -304,9 +302,7 @@ public class StateMachine extends StateMachineBase {
         // Container c = findContainer(f);
         //fixImages();
         count = 0;
-
         ht = allLogos.elementAt(count);
-
         findContainer2(f).addComponent(addImage(ht.get("option_1").toString(), ht.get("option_2").toString(), ht.get("correctAns").toString(), ht.get("id").toString(), (EncodedImage) ht.get("image"), f));
         count++;
 
@@ -358,7 +354,7 @@ public class StateMachine extends StateMachineBase {
                 } else {
                     if (findLevelOneOptACheckBox(c).isSelected()) {
                         findLevelOneOptBCheckBox(c).setSelected(false);
-                        if (findLevelOneOptACheckBox(c).getText().equals(CA)) {
+                        if ((findLevelOneOptACheckBox(c).getText()).toLowerCase().equals(CA.toLowerCase())) {
 
 
                             //Image rightImage = fetchResourceFile().getImage("right2.jpg");
@@ -472,7 +468,7 @@ public class StateMachine extends StateMachineBase {
                 } else {
                     if (findLevelOneOptBCheckBox(c).isSelected()) {
                         findLevelOneOptACheckBox(c).setSelected(false);
-                        if (findLevelOneOptBCheckBox(c).getText().equals(CA)) {
+                        if ((findLevelOneOptBCheckBox(c).getText().toLowerCase()).equals(CA.toLowerCase())) {
 
                             Image rightImage = fetchResourceFile().getImage("right2.jpg");
                             Dialog dlgRight = new Dialog("GOOD,YOU ARE CORRECT");
@@ -690,6 +686,8 @@ public class StateMachine extends StateMachineBase {
         }
 
         if (!imvec.isEmpty()) {
+            empty = false;
+            
             allLogos = imvec;
 //            try {
 ////                Storage.getInstance().writeObject("myLogos", imvec);
@@ -699,6 +697,8 @@ public class StateMachine extends StateMachineBase {
 //            } catch (Exception e) {
 //                Log.p("error occured storing the image folder '" + e.getMessage() + "'");
 //            }
+        }else{
+            empty = true;
         }
     }
 
